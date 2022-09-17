@@ -67,23 +67,22 @@ The following csv files has been selected for analysis because on exploring the 
 ### 1.  Activity duration vs Sleep data
 
 We have to do a left inner join to find the activity and sleep data tables.
+```
+    select da.id, da.total_activity_minutes, sl.total_sleep_minutes
+    from 
+    (
+    select id, SUM(TotalMinutesAsleep) as total_sleep_minutes
+    from bellabeat.sleep_day 
+    group by id
+    ) sl
+    left join
+    (
+    SELECT id, SUM(VeryActiveMinutes + FairlyActiveMinutes + LightlyActiveMinutes) as total_activity_minutes
+    FROM bellabeat.daily_activity  
+    group by id
+    ) da on da.id=sl.id;
 
-    ```
-        select da.id, da.total_activity_minutes, sl.total_sleep_minutes
-        from 
-        (
-        select id, SUM(TotalMinutesAsleep) as total_sleep_minutes
-        from bellabeat.sleep_day 
-        group by id
-        ) sl
-        left join
-        (
-        SELECT id, SUM(VeryActiveMinutes + FairlyActiveMinutes + LightlyActiveMinutes) as total_activity_minutes
-        FROM bellabeat.daily_activity  
-        group by id
-        ) da on da.id=sl.id;
-
-    ```
+```
 
 Below is a visualisation to show that people with higher activity probably sleep better.
 
