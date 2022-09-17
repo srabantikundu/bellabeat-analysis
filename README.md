@@ -64,9 +64,9 @@ The following csv files has been selected for analysis because on exploring the 
     - BMI vs Sleep
 
 
-### 1.  Activity duration vs BMI
+### 1.  Activity duration vs Sleep data
 
-We have to do a left inner join to find the activity and weight tables.
+We have to do a left inner join to find the activity and sleep data tables.
 
     ```
         select da.id, da.total_activity_minutes, sl.total_sleep_minutes
