@@ -88,3 +88,55 @@ We have to do a left inner join to find the activity and sleep data tables.
 Below is a visualisation to show that people with higher activity probably sleep better.
 
 ![sleepDataWithActivity](./visualisations/activity_vs_sleep.png)
+ 
+
+### 2. Activity Duration vs BMI
+
+We have to do a left inner join to find the co-relation between Active minutes and BMI. 
+ ```
+    select da.id, da.total_activity_minutes, sl.BMI
+    from 
+    (
+    SELECT id, SUM(VeryActiveMinutes + FairlyActiveMinutes + LightlyActiveMinutes) as total_activity_minutes
+    FROM bellabeat.daily_activity
+    group by id
+    ) da 
+    left join
+    (
+    select id, BMI
+    from bellabeat.weight_loginfo
+    where BMI is not null
+    group by id
+    ) sl on da.id=sl.id 
+    where sl.id is not null;
+
+
+```
+
+Below is a visualisation to show that people with higher activity probably have optimal BMI.
+
+
+![BMIWithActivity](./visualisations/Activity_vs_BMI.png)
+
+**<u>The data set is only availabe for 9 persons, so we cannot conclude much. However, we can see from the graph that the person having more active minutes has more optimal BMI</u>.**
+
+### 3. Active minutes vs calories burn
+
+Both the data are available in `daily_activity` table so we run the query to find the co-relation between Active Minutes to calories burned for each user. 
+ ```
+    SELECT id, 
+    sum( VeryActiveMinutes + FairlyActiveMinutes + LightlyActiveMinutes) as total_activity_minutes,Sum(Calories)
+    FROM bellabeat.daily_activity
+    group by Id;
+
+ ```
+
+Below is a visualisation to show the activity vs calories burned co-relation. 
+
+![Activevscaloriesburned](./visualisations/active_time_vs_calories_burned.png)
+
+**The data is showing co-relation between total active minutes vs calories burned. However, total active minutes is sum of most active, moderately active and lightly active minutes. Hence, we cannot establish a direct co-relation between them. Still, we can see the more active minutes resulting in more calories burned.**
+
+
+
+
